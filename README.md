@@ -21,4 +21,4 @@ a better understanding of the problems you encountered during the developmemnt o
 - *Cheyenne Kent* - *Computer Science* - Student Team Member
 - *Kimberly Pham* - *Computer Engineering* - Student Team Member
 - *Frederick Roddy* - *Electrical Engineering* - Student Team Member
-- *Joseph Mustachio* - *Computer/Electrical Engineering* - Student Team Member
+- *Joseph Mustachio* - *Computer Engineering* - Student Team Member
