@@ -18,6 +18,7 @@ a better understanding of the problems you encountered during the developmemnt o
 - *Technical Advisor Name* - *Company Affliation* - Technical Advisor
 - *Faculty Advisor's Name* - *Department* - Faculty Advisor
 - *Michael Blatt* - *Computer Science* - Student Team Member
-- *Student's Name* - *major* - Student Team Member
-- *Student's Name* - *major* - Student Team Member
-- *Student's Name* - *major* - Student Team Member
+- *Cheyenne Kent* - *Computer Science* - Student Team Member
+- *Kimberly Pham* - *Computer Engineering* - Student Team Member
+- *Frederick Roddy* - *Electrical Engineering* - Student Team Member
+- *Joseph Mustachio* - *Computer/Electrical Engineering* - Student Team Member
