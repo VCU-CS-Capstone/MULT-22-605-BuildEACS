@@ -12,7 +12,7 @@ Status Report Template: https://github.com/VCU-CS-Capstone/0000---Capstone-Templ
 | Project Plan | Overall week by week plan of milestones | | |
 | Week 1 Status Report | Applied for partners and projects | | |
 | Week 2 Status Report | Reached out to group members and met to discuss getting started | | |
-| Week 3 Status Report | Scheduled meeting with both faculty advisors and started communication with client/sponser| | |
+| Week 3 Status Report | Scheduled meeting with both faculty advisors and started communication with client/sponser| Had advisor meeting and went over ECE contract | Waiting on response from sponser to schedule meeting |
 | Week 4 Status Report | | | |
 | Week 5 Status Report | | | |
 | Week 6 Status Report | | | |
