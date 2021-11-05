@@ -194,6 +194,7 @@ rfid_number = ""
 shift = False
 done = False
 ###Running the loop----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+###CURRENT-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 GPIO.output(17, False)
 board = Arduino('/dev/ttyACM0')
 red = 8
@@ -208,7 +209,7 @@ board.digital[yellow].write(1)
 board.digital[green].write(0)
 while True:
     ### Wait for RFID
-    while not done: ## Get the character from the HID	
+    while not done: ## Get the character from the HID 	
         value = board.analog[0].read()  
         if value == None: 
             value = 0	
