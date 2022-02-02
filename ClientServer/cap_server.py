@@ -8,6 +8,16 @@
 #Last update: 02FEB22
 
 import socket
+from mysql.connector import (connection)
+
+#create database connection
+cnx = connection.MySQLConnection(user='root', password='CapstonePassword', host='127.0.0.1', database='sys')
+
+cursor = cnx.cursor()
+#the query used to check if a user is certified
+query = ("SELECT userID FROM CertUser WHERE certID = (SELECT certID FROM EqCert WHERE equipID = (SELECT equipID FROM Equipment WHERE wifi_Address = %s))")
+
+
 
 #declare host ip and port number
 HOST = '127.0.0.1'
@@ -36,12 +46,18 @@ while True:
     print('Machine address:', addr)
     print('Member ID:', mID)
 
-    #Simple if else to check if data matches abitrary test data or not
-    #Sends back true if it does, false otherwise
-    if addr == '192.168.1.103' and mID == '111222':
-        connection_socket.send('True'.encode())
-    else:
-        connection_socket.send('False'.encode())
+    cursor.execute(query, (addr,))
 
+    for userID in cursor:
+        print('{}'.format(userID))
+        if int(mID) in userID:
+            print('Verified User')
+            connection_socket.send('True'.encode())
+        else:
+            print('Unverified User')
+            connection_socket.send('False'.encode())
+
+    cursor.close()
+    cnx.close()
     #close connection to that client
     connection_socket.close()
