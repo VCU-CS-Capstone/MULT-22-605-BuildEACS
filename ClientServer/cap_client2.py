@@ -9,7 +9,7 @@ from socket import *
 
 #Declaring ip and port number for socket
 serverName = '127.0.0.1'
-serverPort = 22222
+serverPort = 12000
 
 #Create socket object
 client = socket(AF_INET, SOCK_STREAM)
@@ -19,7 +19,8 @@ client.connect((serverName, serverPort))
 
 #Prompt for input ----------Make this the member ID
 #testData = raw_input()
-testData = '192.442.456.813|1235'
+#testData = '192.442.456.813|1235'
+testData = '0003248329'
 
 #send date to server
 client.send(testData)
