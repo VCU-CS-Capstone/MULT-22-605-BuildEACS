@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>FlaskBlog</title>
+
+  <body>
+    <form action="#" method="post" onsubmit="return confirm('Are you sure you want to submit?');">
+      <h1>Add an Equipment</h1><br><br>
+
+      <div style="width:50%;float:left;">
+        <label for="ename">Equipment name:</label>
+        <input type="text" id="ename" name="ename" required><br><br>
+
+        <label for="eid">Equipment ID:</label>
+        <input type="number" id="eid" name="eid" required><br><br>
+
+        <label for="etype">Equipment Type:</label>
+        <input type="text" id="etype" name="etype"><br><br>
+
+        <label for="boxnum">Box Number:</label>
+        <input type="number" id="boxnum" name="boxnum" required><br><br>
+
+        <label for="wifiadd">Wifi Address:</label>
+        <input type="text" id="wifiadd" name="wifiadd" required><br><br>
+     </div>
+
+     <div style="width:50%;float:left;">
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model" required><br><br>
+
+        <label for="serial">Serial Number:</label>
+        <input type="text" id="serial" name="serial"><br><br>
+
+        <label for="certneeded">Certification:</label>
+        <input type="text" id="certneeded" name="certneeded" required><br><br>
+
+        <label for="lastmain">Last Maintenance:</label>
+        <input type="date" id="lastmain" name="lastmain"><br><br>
+
+        <label for="surge">Surge Level:</label>
+        <input type="number" step="any" id="surge" name="surge"><br><br>
+     </div>
+     <input type="submit" value="Submit">
+    </form>
+
+  </body>
+</html>
