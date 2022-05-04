@@ -15,7 +15,8 @@ import sys
 from mysql.connector import (connection)
 
 #Get host/server ip address
-HOST = socket.gethostbyname(socket.gethostname()) #Gets ip automatically *Can use loopback for testing on same machine
+#HOST = socket.gethostbyname(socket.gethostname()) #Gets ip automatically *Can use loopback for testing on same machine
+HOST = '10.1.10.21'
 #declare port number
 PORT = 12001    #Any port that is not reserved will work *Client and server must use the same port
 FORMAT = 'utf-8' #Used for encode/decode across network
@@ -33,12 +34,12 @@ serv.bind((HOST,PORT))
 currDate = datetime.date.today()
 
 dbpw = sys.argv[1]
-
+#YYYY-MM-DD
 #filepath for logs. Will create new file on first and fifteenth of the month
 if int(str(currDate).split('-')[2][0:2]) < 15:
-    logPath = '/Users/' + str(currDate).split('-')[0] + str(currDate).split('-')[1] + '-01.txt'
+    logPath = '/Users/blattmt/Desktop/' + str(currDate).split('-')[0] + '-' + str(currDate).split('-')[1] + '-01.txt'
 else:
-    logPath = '/Users/' + str(currDate).split('-')[0] + '-' + str(currDate).split('-')[1] + '-15.txt'
+    logPath = '/Users/blattmt/Desktop/' + str(currDate).split('-')[0] + '-' + str(currDate).split('-')[1] + '-15.txt'
 
 #Function to handle connections, get data from client, check against query and return results
 def handle_client(conn, addr):
@@ -87,7 +88,7 @@ def handle_client(conn, addr):
                 a_tuple = a_tuple + userID
             print(a_tuple)
             #print(userID)
-            if int(mID) in userID:
+            if int(mID) in a_tuple:
                 print("Here is the mID " + mID + "\n")
                 print('Verified User')
                 conn.send(response.encode(FORMAT))
@@ -122,7 +123,7 @@ def start():
     while runLoop :
         #accept the connection
         conn, addr = serv.accept()
-        #grap ip
+        #grab ip
         addr = addr[0]
         #Create and start new thread to handle the connection
         thread = threading.Thread(target=handle_client, args=(conn, addr))
