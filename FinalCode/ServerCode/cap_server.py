@@ -34,10 +34,11 @@ currDate = datetime.date.today()
 
 dbpw = sys.argv[1]
 
+#filepath for logs. Will create new file on first and fifteenth of the month
 if int(str(currDate).split('-')[2][0:2]) < 15:
-    logPath = '/Users/blattmt/Desktop/python/school/' + str(currDate).split('-')[0] + str(currDate).split('-')[1] + '-01.txt'
+    logPath = '/Users/' + str(currDate).split('-')[0] + str(currDate).split('-')[1] + '-01.txt'
 else:
-    logPath = '/Users/blattmt/Desktop/python/school/' + str(currDate).split('-')[0] + '-' + str(currDate).split('-')[1] + '-15.txt'
+    logPath = '/Users/' + str(currDate).split('-')[0] + '-' + str(currDate).split('-')[1] + '-15.txt'
 
 #Function to handle connections, get data from client, check against query and return results
 def handle_client(conn, addr):
