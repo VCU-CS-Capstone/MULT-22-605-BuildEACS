@@ -10,37 +10,46 @@
 import socket
 import datetime
 import threading
+import os
+import sys
 from mysql.connector import (connection)
 
-#------can use this(loopback) for testing on same machine
-HOST = '127.0.0.1'
 #Get host/server ip address
-#HOST = socket.gethostbyname(socket.gethostname())
+HOST = socket.gethostbyname(socket.gethostname()) #Gets ip automatically *Can use loopback for testing on same machine
 #declare port number
-PORT = 12001
-HEADER = 64
-FORMAT = 'utf-8'
+PORT = 12001    #Any port that is not reserved will work *Client and server must use the same port
+FORMAT = 'utf-8' #Used for encode/decode across network
+
 #the query used to check if a user is certified
 query = ("SELECT userID FROM CertUser WHERE certID = (SELECT certID FROM EqCert WHERE equipID = (SELECT equipID FROM Equipment WHERE wifi_Address = %s))")
 
 #create socket object
 serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 #assign ip and port to socket
 serv.bind((HOST,PORT))
+
 #define date object
 currDate = datetime.date.today()
-# -------------------UPDATE to filepath desired on server system when installed
-logPath = '/Users/blattmt/Desktop/python/school/' + str(currDate).split('-')[0] + '-' + str(currDate).split('-')[1] + '.txt'
 
-#Function to handle connections, get data from client, check against query
-#and return results
+dbpw = sys.argv[1]
+
+if int(str(currDate).split('-')[2][0:2]) < 15:
+    logPath = '/Users/blattmt/Desktop/python/school/' + str(currDate).split('-')[0] + str(currDate).split('-')[1] + '-01.txt'
+else:
+    logPath = '/Users/blattmt/Desktop/python/school/' + str(currDate).split('-')[0] + '-' + str(currDate).split('-')[1] + '-15.txt'
+
+#Function to handle connections, get data from client, check against query and return results
 def handle_client(conn, addr):
     #Display which address of new connection
     print(f'[NEW CONNECTION] {addr} connected.')
+    
     #Create database connection
-    cnx = connection.MySQLConnection(user='root', password='CapstonePassword', host='127.0.0.1', database='sys')
+    cnx = connection.MySQLConnection(user='root', password=dbpw, host='127.0.0.1', database='sys')
+    
     #Cursor object to let us run query
     cursor = cnx.cursor()
+    
     #Loop condition variable
     connected = True
     while connected:
@@ -48,7 +57,6 @@ def handle_client(conn, addr):
         mID = conn.recv(32).decode(FORMAT)
         
         #Display member number sent from address
-        
         print(f'[{addr}] Sent member ID: {mID}')
 
         #Run db query using address of machine sending request
@@ -71,28 +79,30 @@ def handle_client(conn, addr):
             logFile.write('DENIED,' + mID + ',' + addr + ',' + str(datetime.datetime.now()).split('.')[0] +'\n')
             logFile.close()
         else:
+            a_tuple = ()
             for userID in check:
                 #Display user ID
                 #if mID is allowed and in list, send True and log...
-                print(userID)
-                if int(mID) in userID:
-                    print("Here is the mID " + mID + "\n")
-                    print('Verified User')
-                    conn.send(response.encode(FORMAT))
-                    logFile = open(logPath, 'a')
-                    #Write to file in sequence 'Granted/id/ip/date and time
-                    logFile.write('GRANTED,' + mID +' ,' + addr + ',' + str(datetime.datetime.now()).split('.')[0] + '\n')
-                    logFile.close()            
+                a_tuple = a_tuple + userID
+            print(a_tuple)
+            #print(userID)
+            if int(mID) in userID:
+                print("Here is the mID " + mID + "\n")
+                print('Verified User')
+                conn.send(response.encode(FORMAT))
+                logFile = open(logPath, 'a')
+                #Write to file in sequence 'Granted/id/ip/date and time
+                logFile.write('GRANTED,' + mID +' ,' + addr + ',' + str(datetime.datetime.now()).split('.')[0] + '\n')
+                logFile.close()            
                 #if not, send false and log
-                else:
-                    #response = 'False'
-                    print('Unverified User')
-                    conn.send(response.encode(FORMAT))
-                    logFile = open(logPath, 'a')
-                    #Write to file in sequence 'Denied/id/machine/date and time
-                    logFile.write('DENIED,' + mID + ',' + addr + ',' + str(datetime.datetime.now()).split('.')[0] +'\n')
-                    logFile.close()
-        # connected = False
+            else:
+                #response = 'False'
+                print('Unverified User')
+                conn.send(response.encode(FORMAT))
+                logFile = open(logPath, 'a')
+                #Write to file in sequence 'Denied/id/machine/date and time
+                logFile.write('DENIED,' + mID + ',' + addr + ',' + str(datetime.datetime.now()).split('.')[0] +'\n')
+                logFile.close()
         connected = False
 
     #close cursor object
@@ -109,12 +119,15 @@ def start():
     print(f'[LISTENING] Server is listening on {HOST}')
     runLoop = True
     while runLoop :
+        #accept the connection
         conn, addr = serv.accept()
+        #grap ip
         addr = addr[0]
+        #Create and start new thread to handle the connection
         thread = threading.Thread(target=handle_client, args=(conn, addr))
         thread.start()
+
         print(f'[ACTIVE CONNECTIONS] {threading.active_count() - 1}')
 
-##MAIN###########################
-#Run driver function
+#Run driver function - Currently only requires calling of start()
 start()
